@@ -1,0 +1,20 @@
+🔹 Pozadina taskbara (light siva):
+#f5f7fa – vrlo lagana siva, gotovo bijela
+
+#e0e0e0 – klasična neutralna siva
+
+
+
+🔹 Primarna plava (naglasci, ikonice, dugmad):
+#1e90ff – "dodger blue", čista i moderna plava
+
+#4a90e2 – plava koju koristi npr. Slack
+
+#2f80ed – lijepa, čista plava s modernim osjećajem
+
+🔹 Sekundarna tamna (tekst, obrub):
+#333 – tamno siva, umjesto crne
+
+#666 – siva za sekundarni tekst
+
+#b0bec5 – plavkasto-siva, dobra za obrube

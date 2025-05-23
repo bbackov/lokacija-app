@@ -9,7 +9,7 @@ func DodajUredaj(db *sql.DB, u strukture.Uređaj) (int, error) {
 
 	query := "INSERT INTO uređaj (ime_uređaja, tip_uređaja, status_uređaja, id_korisnik,posljednja_aktivnost) VALUES ($1, $2, $3, $4,NOW()) RETURNING id_uređaja"
 
-	err := db.QueryRow(query, u.ImeUredaj, u.TipUredaj, u.Status, u.IDKorisnik, u.Aktivnost).Scan(&u.IDUredaj)
+	err := db.QueryRow(query, u.ImeUredaj, u.TipUredaj, u.Status, u.IDKorisnik).Scan(&u.IDUredaj)
 	if err != nil {
 		return 0, err
 	}

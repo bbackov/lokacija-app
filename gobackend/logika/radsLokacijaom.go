@@ -9,9 +9,9 @@ import (
 )
 
 func DodajLokaciju(db *sql.DB, l strukture.Lokacija) (uuid.UUID, time.Time, error) {
-	query := `INSERT INTO lokacija geografska_širina,geografska_dužina,preciznost,brzina,pravac,visina,id_uređaja
-	VALUES($1,$2,$3,$4,$5,$6,$7)
-	RETURNING id_lokacije, vrijeme`
+	query := `INSERT INTO lokacija (geografska_sirina, geografska_duzina, preciznost, brzina, pravac, visina, id_uredaj)
+	VALUES ($1, $2, $3, $4, $5, $6, $7)
+	RETURNING id_lokacija, vrijeme`
 	err := db.QueryRow(query, l.GeografskaSirina, l.GeografskaDuzina, l.Preciznost, l.Brzina, l.Pravac, l.Visina, l.IDUredaj).Scan(&l.IDLokacija, &l.Vrijeme)
 	if err != nil {
 		return uuid.Nil, time.Now(), err
@@ -21,7 +21,7 @@ func DodajLokaciju(db *sql.DB, l strukture.Lokacija) (uuid.UUID, time.Time, erro
 }
 
 func GetLokacija(db *sql.DB, idUređaj int) ([]strukture.Lokacija, error) {
-	rows, err := db.Query(`SELECT id_lokacija,geografska_sirina,geografska_duzina,vrijeme,preciznost,brzina,visina,pravaac FROM lokacija where id_uređaj=$1
+	rows, err := db.Query(`SELECT id_lokacija,geografska_sirina,geografska_duzina,vrijeme,preciznost,brzina,visina,pravaac FROM lokacija where id_uredaj=$1
 		ORDER BY vrijeme DESC LIMIT 10`, idUređaj)
 	if err != nil {
 		return nil, err
@@ -45,7 +45,7 @@ func GetZadnjaLokacija(db *sql.DB, idUredaj int) (strukture.Lokacija, error) {
 	query := `
 		SELECT id_lokacija, geografska_sirina, geografska_duzina, vrijeme, preciznost, brzina, visina, pravaac
 		FROM lokacija
-		WHERE id_uređaj = $1
+		WHERE id_uredaj = $1
 		ORDER BY vrijeme DESC
 		LIMIT 1
 	`
@@ -69,7 +69,7 @@ func GetZadnjaLokacija(db *sql.DB, idUredaj int) (strukture.Lokacija, error) {
 }
 
 func GetVremenskiLokacija(db *sql.DB, idUređaj int, pocetak time.Time, kraj time.Time) ([]strukture.Lokacija, error) {
-	query := `SELECT id_lokacija,geografska_sirina,geografska_duzina,vrijeme,preciznost,brzina,visina,pravaac FROM lokacija where id_uređaj=$1 and 
+	query := `SELECT id_lokacija,geografska_sirina,geografska_duzina,vrijeme,preciznost,brzina,visina,pravaac FROM lokacija where id_uredaj=$1 and 
 		vrijeme >= $2 and vrijeme<= $3
 		ORDER BY vrijeme`
 	rows, err := db.Query(query, idUređaj, pocetak, kraj)

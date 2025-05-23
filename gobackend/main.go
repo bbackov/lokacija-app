@@ -178,7 +178,7 @@ func PrijavaHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"poruka":   "uspješno logiranje",
 		"token":    tokenString,
-		"Korisnik": korisnik,
+		"korisnik": korisnik,
 	})
 
 }

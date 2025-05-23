@@ -5,10 +5,10 @@ import (
 )
 
 type Uređaj struct {
-	IDUredaj   int       `json:"id_uredaja"`
-	ImeUredaj  string    `json:"ime_uredaja"`
-	TipUredaj  string    `json:"tip_uredaja"`
-	Status     string    `json:"status_uredaja"`
+	IDUredaj   int       `json:"id_uredaj"`
+	ImeUredaj  string    `json:"ime_uredaj"`
+	TipUredaj  string    `json:"tip_uredaj"`
+	Status     string    `json:"status_uredaj"`
 	IDKorisnik int       `json:"id_korisnik"`
-	Aktivnost  time.Time `json:"vrijeme"`
+	Aktivnost  time.Time `json:"-"`
 }

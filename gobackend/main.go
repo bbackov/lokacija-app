@@ -6,6 +6,7 @@ import (
 	connection "gobackend/bazapodataka"
 	"gobackend/logika"
 	"gobackend/strukture"
+	"io"
 	"net/http"
 	"strconv"
 	"strings"
@@ -222,11 +223,13 @@ func DodavanjeUređajaHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"poruka": "uspješno dodavanje uređaja",
-		"uređaj": podaci,
+		"uredaj": podaci,
 	})
 }
 
 func DodajLokacijuHandler(w http.ResponseWriter, r *http.Request) {
+
+	fmt.Println("Handler aktiviran")
 
 	if r.Method != http.MethodPost {
 		jsonError(w, http.StatusMethodNotAllowed, "Metoda nije dozvoljena")
@@ -235,8 +238,14 @@ func DodajLokacijuHandler(w http.ResponseWriter, r *http.Request) {
 
 	var podaci strukture.Lokacija
 
-	err := json.NewDecoder(r.Body).Decode(&podaci)
+	data, err := io.ReadAll(r.Body)
+	if err != nil {
+		jsonError(w, http.StatusBadRequest, "Greška kod čitanja tijela zahtjeva")
+		return
+	}
+	fmt.Println("Raw JSON body:", string(data))
 
+	err = json.Unmarshal(data, &podaci)
 	if err != nil {
 		jsonError(w, http.StatusBadRequest, "Neispravan JSON format")
 		return

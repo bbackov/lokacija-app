@@ -59,7 +59,7 @@ func PonistiToken(tokenString string) {
 
 func Provjeravlasnistva(db *sql.DB, idUredaj int, idKorisnik int) error {
 	var vlasnikID int
-	err := db.QueryRow("SELECT id_korisnik FROM uređaj WHERE id_uređaj = $1", idUredaj).Scan(&vlasnikID)
+	err := db.QueryRow("SELECT id_korisnik FROM uređaj WHERE id_uredaj = $1", idUredaj).Scan(&vlasnikID)
 	if err != nil {
 		return err
 	}

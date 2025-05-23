@@ -7,7 +7,7 @@ import (
 
 func DodajUredaj(db *sql.DB, u strukture.Uređaj) (int, error) {
 
-	query := "INSERT INTO uređaj (ime_uređaja, tip_uređaja, status_uređaja, id_korisnik,posljednja_aktivnost) VALUES ($1, $2, $3, $4,NOW()) RETURNING id_uređaja"
+	query := "INSERT INTO uređaj (ime_uredaj, tip_uredaj, status_uredaj, id_korisnik,posljednja_aktivnost) VALUES ($1, $2, $3, $4,NOW()) RETURNING id_uredaj"
 
 	err := db.QueryRow(query, u.ImeUredaj, u.TipUredaj, u.Status, u.IDKorisnik).Scan(&u.IDUredaj)
 	if err != nil {
@@ -19,7 +19,7 @@ func DodajUredaj(db *sql.DB, u strukture.Uređaj) (int, error) {
 
 func PostaviStatus(db *sql.DB, idUređaj int, status string) error {
 
-	query := "UPDATE uređaj SET status_uređaja=$1 WHERE id_uređaja=$2"
+	query := "UPDATE uređaj SET status_uredaj=$1 WHERE id_uredaj=$2"
 	_, err := db.Exec(query, idUređaj, status)
 	if err != nil {
 		return err
@@ -28,7 +28,7 @@ func PostaviStatus(db *sql.DB, idUređaj int, status string) error {
 }
 
 func Azuriranjeaktivnosti(db *sql.DB, idUređaj int) error {
-	query := "UPDATE uređaj SET posljednja_aktivnost=Now(),status_uređaja='aktivan' WHERE id_uređaja=$1"
+	query := "UPDATE uređaj SET posljednja_aktivnost=Now(),status_uredaj='Aktivno' WHERE id_uredaj=$1"
 	_, err := db.Exec(query, idUređaj)
 	if err != nil {
 		return err
@@ -37,8 +37,8 @@ func Azuriranjeaktivnosti(db *sql.DB, idUređaj int) error {
 }
 
 func Offlineuredaj(db *sql.DB) error {
-	query := `UPDATE uređaj SET status_uređaja='offline' 
-	WHERE posljednja_aktivnost< Now()- INTERVAL '5 minutes' and status_uređaja !='offline'`
+	query := `UPDATE uređaj SET status_uredaj='offline' 
+	WHERE posljednja_aktivnost< Now()- INTERVAL '5 minutes' and status_uredaj !='offline'`
 	_, err := db.Exec(query)
 	if err != nil {
 		return err
@@ -47,7 +47,7 @@ func Offlineuredaj(db *sql.DB) error {
 }
 
 func ObrisiUredaj(db *sql.DB, idUredaj int) error {
-	query := "DELETE FROM uređaj WHERE id_uređaj = $1"
+	query := "DELETE FROM uređaj WHERE id_uredaj = $1"
 	_, err := db.Exec(query, idUredaj)
 	if err != nil {
 		return err
@@ -56,7 +56,7 @@ func ObrisiUredaj(db *sql.DB, idUredaj int) error {
 }
 
 func GetStatus(db *sql.DB, idUredaj int) (string, error) {
-	query := "SELECT status_uređaja FROM uređaj WHERE id_uređaj = $1"
+	query := "SELECT status_uredaj FROM uređaj WHERE id_uredaj = $1"
 
 	var status string
 	err := db.QueryRow(query, idUredaj).Scan(&status)
@@ -68,7 +68,7 @@ func GetStatus(db *sql.DB, idUredaj int) (string, error) {
 }
 
 func GetUređaji(db *sql.DB, idKorisnik int) ([]strukture.Uređaj, error) {
-	rows, err := db.Query("SELECT id_uređaja, ime_uređaja, tip_uređaja, status_uređaja, id_korisnik FROM uređaj WHERE id_korisnik=$1", idKorisnik)
+	rows, err := db.Query("SELECT id_uredaj, ime_uredaj, tip_uredaj, status_uredaj, id_korisnik FROM uređaj WHERE id_korisnik=$1", idKorisnik)
 
 	if err != nil {
 		return nil, err

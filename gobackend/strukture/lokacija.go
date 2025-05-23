@@ -7,7 +7,7 @@ import (
 )
 
 type Lokacija struct {
-	IDLokacija       uuid.UUID `json:"id_lokacija"`
+	IDLokacija       uuid.UUID `json:"id_lokacije"`
 	GeografskaSirina float64   `json:"geografska_sirina"`
 	GeografskaDuzina float64   `json:"geografska_duzina"`
 	Vrijeme          time.Time `json:"vrijeme"`
